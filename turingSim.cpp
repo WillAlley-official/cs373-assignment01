@@ -39,7 +39,7 @@ State* transitionData[1001];
 
 int main(int argc, char* argv[]) {
 	
-	// PHASE 1 : Reading Input File & Building Turing Logic
+////// PHASE 1 : Reading Input File & Building Turing Logic
 
 	// Grab Input File
 	ifstream file(argv[1]); 
@@ -85,11 +85,41 @@ int main(int argc, char* argv[]) {
 		}
 	}	
 
-	// PHASE 2 : Converting Tape Input Into a Vector
+////// PHASE 2 : Converting Tape Input Into a Vector
 
+	// Grabs tape from command line.
+	string inputTape = argv[2];
+	int tapeLength = inputTape.size();
 
-	// PHASE 3 : Running Input Tape & Determining Result
+	// Creates vector of chars to store tape in.
+	vector<char> tape;
+	for(int i=0; i<tapeLength; i++) {
+		tape.push_back(inputTape[i]);
+	}
 
+////// PHASE 3 : Running Input Tape & Determining Result
+
+	// Locate Start State
+	int startStateIndex = 0;
+	for(int i=0; i<1001; i++) {
+		if(stateType[i] == "start") {
+			startStateIndex = i;
+			break;
+		}
+	}
+
+	// Loop for Traversing the Turing Machine
+	int maxTransitions = stoi(argv[3]);
+	for(counter = 0; counter < maxTransitions; counter++) {
+		
+		// Read Tape Head
+		// Locate Transition Node @ Current State
+		// Replace Tape Head
+		// Move Tape Head
+		// Move States 
+	}
+
+////// PHASE 4 : Printing Turing Machine Output
 
 	// Return
 	return 0;
