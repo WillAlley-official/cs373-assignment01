@@ -53,14 +53,15 @@ int main(int argc, char* argv[]) {
 		while(iss >> token) { tokens.push_back(token); }
 
 		// For State Definitions:
+		int index = stoi(tokens[1]);
 		if(tokens[0] == "state") {
 
-			int index = stoi(tokens[1]);
 			stateType[index] = tokens[2];
 
 		// For Transition Definitions:
 		} else {
 
+			// Creates new State node
 			State* newState = new State();
 			char c = tokens[2][0];
 			newState->currTapeValue = c;
@@ -71,13 +72,23 @@ int main(int argc, char* argv[]) {
 			c = tokens[5][0];	
 			newState->tapeMovement = c;
 
-			// TODO: Finish setting up the transitionData array!	
+			// Puts new State into array
+			if(transitionData[index] == nullptr) {
+				transitionData[index] = newState;
+			} else {
+				State* temp = transitionData[index];
+				while(temp->next != nullptr) temp = temp->next;
+				temp->next = newState;
+			}	
 	
 			delete newState;
 		}
 	}	
 
-	// PHASE 2 : Running Input Tape & Determining Result
+	// PHASE 2 : Converting Tape Input Into a Vector
+
+
+	// PHASE 3 : Running Input Tape & Determining Result
 
 
 	// Return
