@@ -24,10 +24,12 @@ string currentLine = "null";
 int tapeHead = 0;
 State* currState = nullptr;
 int counter = 0;
+string outputType = "null";
 
 // State Arrays
 string stateType[1001];
 State* transitionData[1001];
+int stateIndex = 0;
 
 //@-------------------------------------------@
 // HELPER FUNCTIONS
@@ -38,6 +40,8 @@ State* transitionData[1001];
 //@-------------------------------------------@
 
 int main(int argc, char* argv[]) {
+
+	if(argc != 4) return 1;
 	
 ////// PHASE 1 : Reading Input File & Building Turing Logic
 
@@ -100,26 +104,64 @@ int main(int argc, char* argv[]) {
 ////// PHASE 3 : Running Input Tape & Determining Result
 
 	// Locate Start State
-	int startStateIndex = 0;
+	int stateIndex = 0;
 	for(int i=0; i<1001; i++) {
 		if(stateType[i] == "start") {
-			startStateIndex = i;
+			stateIndex = i;
 			break;
 		}
 	}
 
 	// Loop for Traversing the Turing Machine
 	int maxTransitions = stoi(argv[3]);
-	for(counter = 0; counter < maxTransitions; counter++) {
+	for(counter = 0; counter <= maxTransitions; counter++) {
 		
-		// Read Tape Head
+		// Read State & Tape Head
+		if(stateType[stateIndex] == "accept") {
+			outputType = "accept";
+			break;
+		} else if(stateType[stateIndex] == "reject") {
+			outputType = "reject";
+			break;
+		}
+		char currentTapeValue = tape.at(tapeHead);
+
 		// Locate Transition Node @ Current State
+		currState = transitionData[stateIndex];
+		do { 
+			if(currState->currTapeValue == currentTapeValue) break;
+			currState = currState->next;
+		} while(currState != nullptr);
+
 		// Replace Tape Head
-		// Move Tape Head
-		// Move States 
+		tape.at(tapeHead) = currState->newTapeValue;
+
+		// Move Tape Head & States
+		if(currState->tapeMovement == 'L') {
+			tapeHead--;
+			if(tapeHead < 0) {
+				tapeHead = 0;
+				outputType = "crash";
+				break;
+			}
+		} else if(currState->tapeMovement == 'R') {
+			tapeHead++;
+			if(tapeHead >= (int)tape.size()) {
+				tape.push_back('_');
+			}
+		}
+		stateIndex = currState->destinationState;
 	}
 
+	if(outputType == "null") outputType = "quit";
+
 ////// PHASE 4 : Printing Turing Machine Output
+
+	for(int i=tapeHead; i<(int)tape.size(); i++) {
+		if(tape.at(i) == '_') cout << ' ';
+		else cout << tape.at(i);
+	}
+	cout << ' ' << outputType << endl;
 
 	// Return
 	return 0;
