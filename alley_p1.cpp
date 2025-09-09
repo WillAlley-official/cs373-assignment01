@@ -27,8 +27,8 @@ int counter = 0;
 string outputType = "null";
 
 // State Arrays
-string stateType[1001];
-State* transitionData[1001];
+string stateType[1001] = {};
+State* transitionData[1001] = {nullptr};
 int stateIndex = 0;
 
 //@-------------------------------------------@
