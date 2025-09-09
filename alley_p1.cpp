@@ -32,10 +32,6 @@ State* transitionData[1001];
 int stateIndex = 0;
 
 //@-------------------------------------------@
-// HELPER FUNCTIONS
-//@-------------------------------------------@
-
-//@-------------------------------------------@
 // MAIN FUNCTION
 //@-------------------------------------------@
 
@@ -85,7 +81,7 @@ int main(int argc, char* argv[]) {
 				temp->next = newState;
 			}	
 	
-			delete newState;
+//			delete newState;
 		}
 	}	
 
@@ -114,7 +110,7 @@ int main(int argc, char* argv[]) {
 
 	// Loop for Traversing the Turing Machine
 	int maxTransitions = stoi(argv[3]);
-	for(counter = 0; counter <= maxTransitions; counter++) {
+	for(counter = 0; counter < maxTransitions; counter++) {
 		
 		// Read State & Tape Head
 		if(stateType[stateIndex] == "accept") {
@@ -157,6 +153,13 @@ int main(int argc, char* argv[]) {
 
 ////// PHASE 4 : Printing Turing Machine Output
 
+	// Trim Blanks Off Tape End
+	for(int i=(int)tape.size()-1; i>=0; i--) {
+		if(tape.at(i) == '_') tape.pop_back();
+		else break;
+	}
+	
+	// Output Print
 	for(int i=tapeHead; i<(int)tape.size(); i++) {
 		if(tape.at(i) == '_') cout << ' ';
 		else cout << tape.at(i);
@@ -166,7 +169,3 @@ int main(int argc, char* argv[]) {
 	// Return
 	return 0;
 }
-
-
-
-
