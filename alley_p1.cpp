@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 		// For State Definitions:
 		int index = stoi(tokens[1]);
 		if(tokens[0] == "state") {
-
+			if(tokens.size() < 3) continue;
 			stateType[index] = tokens[2];
 
 		// For Transition Definitions:
@@ -80,8 +80,6 @@ int main(int argc, char* argv[]) {
 				while(temp->next != nullptr) temp = temp->next;
 				temp->next = newState;
 			}	
-	
-//			delete newState;
 		}
 	}	
 
